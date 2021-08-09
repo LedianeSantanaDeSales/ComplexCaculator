@@ -11,23 +11,23 @@ namespace Calculatrice_Ezo.Implementation
     public class Operators
     {
         string number1 = "";
-        string number2 ="";
+        string number2 = "";
         private string Sum(string number1, string number2)
         {
 
             if (number1 == "1" && number2 == "1") return "1";
-         
+
 
             var resultPlus = Convert.ToDouble(number1) + Convert.ToDouble(number2);
 
-           return resultPlus.ToString();
+            return resultPlus.ToString();
         }
 
         private string Sub(string number1, string number2)
         {
-           var resultSub = Convert.ToDouble(number1) - Convert.ToDouble(number2);
-            
-           return resultSub.ToString();
+            var resultSub = Convert.ToDouble(number1) - Convert.ToDouble(number2);
+
+            return resultSub.ToString();
         }
 
         public string Mult(string number1, string number2)
@@ -51,7 +51,10 @@ namespace Calculatrice_Ezo.Implementation
             elements = ManageNegativeNumber(elements);
 
             string resultOperation = FindOperation(elements);
- 
+
+            if (resultOperation == "∞")
+                resultOperation = "Error";
+
             return resultOperation;
         }
 
@@ -63,7 +66,7 @@ namespace Calculatrice_Ezo.Implementation
             var hasMoreOneNumber = false;
             var pattern = @"^(\,|\.|[0-9])$";
             var regex = new Regex(pattern);
-            
+
             for (int i = 0; i < input.Length; i++)
             {
                 //Pega todos os dígitos de um número e coloca em num
@@ -129,7 +132,7 @@ namespace Calculatrice_Ezo.Implementation
 
             for (int i = 0; i < elements.Count; i++)
             {
-                if (i > 0 && (elements[i - 1] == "+" || elements[i - 1] == "-" || elements[i - 1] == "*" || elements[i - 1] == "/"))
+                if (i > 0 && (elements[i - 1] == "+" || elements[i - 1] == "-" || elements[i - 1] == "*" || elements[i - 1] == "/" || elements[i - 1] == "("))
                 {
                     if (elements[i - 1] == "+" || elements[i - 1] == "-")
                     {
@@ -141,14 +144,17 @@ namespace Calculatrice_Ezo.Implementation
 
                             result = Calculator(number1, operation, number2);
                             stack.Push(result);
-                           
+
                         }
                         else
                         {
-                            stack.Push(elements[i]);
+                            if (elements[i] != "(" || elements[i] != ")")
+                            {
+                                stack.Push(elements[i]);
+                            }
                         }
                     }
-                    else if (elements[i - 1] == "*" || elements[i - 1] == "/")
+                    else if (elements[i] != "(" && (elements[i - 1] == "*" || elements[i - 1] == "/"))
                     {
                         var operation = stack.Pop();
                         number1 = stack.Pop();
@@ -157,12 +163,26 @@ namespace Calculatrice_Ezo.Implementation
                         result = Calculator(number1, operation, number2);
                         stack.Push(result);
                     }
+                    else if (elements[i - 1] == "(")
+                    {
+                        number1 = elements[i];
+                        var operation = elements[i + 1];
+                        number2 = elements[i + 2];
+
+                        result = Calculator(number1, operation, number2);
+                        stack.Push(result);
+
+                        i = i + 3;
+                    }
                 }
                 else
                 {
-                    stack.Push(elements[i]);
+                    if (elements[i] != "(" && elements[i] != ")")
+                    {
+                        stack.Push(elements[i]);
+                    }
                 }
-               
+
             }
 
             while (stack.Count != 1)

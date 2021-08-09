@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\15819\\source\\repos\\Calculatrice Ezo\\Calculatrice Ezo\\Calculatrice Ezo.csproj": {}
+    "C:\\Users\\15819\\source\\repos\\ComplexCaculator\\Calculatrice Ezo\\Calculatrice Ezo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\15819\\source\\repos\\Calculatrice Ezo\\Calculatrice Ezo\\Calculatrice Ezo.csproj": {
+    "C:\\Users\\15819\\source\\repos\\ComplexCaculator\\Calculatrice Ezo\\Calculatrice Ezo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\15819\\source\\repos\\Calculatrice Ezo\\Calculatrice Ezo\\Calculatrice Ezo.csproj",
+        "projectUniqueName": "C:\\Users\\15819\\source\\repos\\ComplexCaculator\\Calculatrice Ezo\\Calculatrice Ezo.csproj",
         "projectName": "Calculatrice Ezo",
-        "projectPath": "C:\\Users\\15819\\source\\repos\\Calculatrice Ezo\\Calculatrice Ezo\\Calculatrice Ezo.csproj",
+        "projectPath": "C:\\Users\\15819\\source\\repos\\ComplexCaculator\\Calculatrice Ezo\\Calculatrice Ezo.csproj",
         "packagesPath": "C:\\Users\\15819\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\15819\\source\\repos\\Calculatrice Ezo\\Calculatrice Ezo\\obj\\",
+        "outputPath": "C:\\Users\\15819\\source\\repos\\ComplexCaculator\\Calculatrice Ezo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\15819\\AppData\\Roaming\\NuGet\\NuGet.Config",
