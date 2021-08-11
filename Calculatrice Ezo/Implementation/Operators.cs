@@ -1,49 +1,11 @@
-﻿using Calculatrice_Ezo.Models;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Calculatrice_Ezo.Implementation
 {
     public class Operators
     {
-        string number1 = "";
-        string number2 = "";
-        private string Sum(string number1, string number2)
-        {
-
-            if (number1 == "1" && number2 == "1") return "1";
-
-
-            var resultPlus = Convert.ToDouble(number1) + Convert.ToDouble(number2);
-
-            return resultPlus.ToString();
-        }
-
-        private string Sub(string number1, string number2)
-        {
-            var resultSub = Convert.ToDouble(number1) - Convert.ToDouble(number2);
-
-            return resultSub.ToString();
-        }
-
-        public string Mult(string number1, string number2)
-        {
-            var resultMult = Convert.ToDouble(number1) * Convert.ToDouble(number2);
-
-            return resultMult.ToString();
-        }
-
-        public string Div(string number1, string number2)
-        {
-            var resultDiv = Convert.ToDouble(number1) / Convert.ToDouble(number2);
-
-            return resultDiv.ToString();
-        }
-
         public string Treat(string input)
         {
             List<string> elements = GetElementsInput(input);
@@ -61,10 +23,11 @@ namespace Calculatrice_Ezo.Implementation
         private static List<string> GetElementsInput(string input)
         {
             input = input.Replace(" ", "");
+            input = input.Replace(",", ".");
             var elements = new List<string>();
             var num = "";
             var hasMoreOneNumber = false;
-            var pattern = @"^(\,|\.|[0-9])$";
+            var pattern = @"^(\.|[0-9])$";
             var regex = new Regex(pattern);
 
             for (int i = 0; i < input.Length; i++)
@@ -126,13 +89,37 @@ namespace Calculatrice_Ezo.Implementation
 
         private string FindOperation(List<string> elements)
         {
+            string number1;
+            string number2;
+
             var stack = new Stack<string>();
 
             string result;
 
             for (int i = 0; i < elements.Count; i++)
             {
-                if (i > 0 && (elements[i - 1] == "+" || elements[i - 1] == "-" || elements[i - 1] == "*" || elements[i - 1] == "/" || elements[i - 1] == "("))
+                if (elements[i] == "(")
+                {
+                    number1 = elements[i + 1];
+                    var operation = elements[i + 2];
+                    number2 = elements[i + 3];
+
+                    result = Calculator(number1, operation, number2);
+                    stack.Push(result);
+
+                    if (elements[i - 1] == "*" || elements[i - 1] == "/")
+                    {
+                        number2 = stack.Pop();
+                        operation = stack.Pop();
+                        number1 = stack.Pop();
+
+                        result = Calculator(number1, operation, number2);
+                        stack.Push(result);
+                    }
+
+                    i = i + 4;
+                }
+                else if (i > 0 && (elements[i - 1] == "+" || elements[i - 1] == "-" || elements[i - 1] == "*" || elements[i - 1] == "/"))
                 {
                     if (elements[i - 1] == "+" || elements[i - 1] == "-")
                     {
@@ -148,13 +135,10 @@ namespace Calculatrice_Ezo.Implementation
                         }
                         else
                         {
-                            if (elements[i] != "(" || elements[i] != ")")
-                            {
                                 stack.Push(elements[i]);
-                            }
                         }
                     }
-                    else if (elements[i] != "(" && (elements[i - 1] == "*" || elements[i - 1] == "/"))
+                    else if (elements[i - 1] == "*" || elements[i - 1] == "/")
                     {
                         var operation = stack.Pop();
                         number1 = stack.Pop();
@@ -163,24 +147,10 @@ namespace Calculatrice_Ezo.Implementation
                         result = Calculator(number1, operation, number2);
                         stack.Push(result);
                     }
-                    else if (elements[i - 1] == "(")
-                    {
-                        number1 = elements[i];
-                        var operation = elements[i + 1];
-                        number2 = elements[i + 2];
-
-                        result = Calculator(number1, operation, number2);
-                        stack.Push(result);
-
-                        i = i + 3;
-                    }
                 }
                 else
                 {
-                    if (elements[i] != "(" && elements[i] != ")")
-                    {
                         stack.Push(elements[i]);
-                    }
                 }
 
             }
@@ -226,6 +196,38 @@ namespace Calculatrice_Ezo.Implementation
             }
 
             return result;
+        }
+
+        private string Sum(string number1, string number2)
+        {
+
+            if (number1 == "1" && number2 == "1") return "1";
+
+
+            var resultPlus = Convert.ToDouble(number1) + Convert.ToDouble(number2);
+
+            return resultPlus.ToString();
+        }
+
+        private string Sub(string number1, string number2)
+        {
+            var resultSub = Convert.ToDouble(number1) - Convert.ToDouble(number2);
+
+            return resultSub.ToString();
+        }
+
+        public string Mult(string number1, string number2)
+        {
+            var resultMult = Convert.ToDouble(number1) * Convert.ToDouble(number2);
+
+            return resultMult.ToString();
+        }
+
+        public string Div(string number1, string number2)
+        {
+            var resultDiv = Convert.ToDouble(number1) / Convert.ToDouble(number2);
+
+            return resultDiv.ToString();
         }
     }
 }

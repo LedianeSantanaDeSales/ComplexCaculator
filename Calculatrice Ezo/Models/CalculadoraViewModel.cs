@@ -8,9 +8,10 @@ namespace Calculatrice_Ezo.Models
 {
     public class CalculadoraViewModel
     {
-        [Display(Name = "Entrée votre formule" )]
+        [Display(Name = "Entrée les numéros à calculer" )]
         public string Input { get; set; }
 
+        [Display(Name = "Resultat")]
         public string ResultEntry { get; set; }
     }
 }
