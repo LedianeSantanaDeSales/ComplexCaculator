@@ -107,7 +107,7 @@ namespace Calculatrice_Ezo.Implementation
                     result = Calculator(number1, operation, number2);
                     stack.Push(result);
 
-                    if (elements[i - 1] == "*" || elements[i - 1] == "/")
+                    if (i > 0 && (elements[i - 1] == "*" || elements[i - 1] == "/"))
                     {
                         number2 = stack.Pop();
                         operation = stack.Pop();
